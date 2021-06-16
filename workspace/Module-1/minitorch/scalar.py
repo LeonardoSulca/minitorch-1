@@ -8,21 +8,25 @@ import numpy as np
 
 
 def central_difference(f, *vals, arg=0, epsilon=1e-6):
-    r"""
-    Computes an approximation to the derivative of `f` with respect to one arg.
-
-    See :doc:`derivative` or https://en.wikipedia.org/wiki/Finite_difference for more details.
-
-    Args:
-       f : arbitrary function from n-scalar args to one value
-       *vals (floats): n-float values :math:`x_0 \ldots x_{n-1}`
-       arg (int): the number :math:`i` of the arg to compute the derivative
-       epsilon (float): a small constant
-
-    Returns:
-       float : An approximation of :math:`f'_i(x_0, \ldots, x_{n-1})`
-    """
     # TODO: Implement for Task 1.1.
+    var = vals[arg]
+    var_up= var + (epsilon/2)
+    var_down= var - (epsilon/2)
+    vals_up = []
+    vals_down = []
+    #Se tiene que iterar por la naturaleza de una tupla(vals) y no alterar los valores en una copia o conversion
+    for i in range(len(vals)):
+        if i == arg:
+            vals_up.append(var_up)
+            vals_down.append(var_down)
+        else:
+            vals_up.append(vals[i])
+            vals_down.append(vals[i])
+
+    f_up = f(*vals_up)
+    f_down = f(*vals_down)
+    der = (f_up - f_down) / (epsilon)
+    return der
     raise NotImplementedError('Need to implement for Task 1.1')
 
 
