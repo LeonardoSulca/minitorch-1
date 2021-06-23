@@ -67,13 +67,13 @@ def relu(x):
 
     (See `<https://en.wikipedia.org/wiki/Rectifier_(neural_networks)>`_ .)
     """
-    return x if x > 0 else 0
+    return x if x > 0 else 0.0
     raise NotImplementedError('Need to implement for Task 0.1')
 
 
 def relu_back(x, y):
     ":math:`f(x) =` y if x is greater than 0 else 0"
-    return y if x > 0 else 0
+    return y if x > 0 else 0.0
     raise NotImplementedError('Need to implement for Task 0.1')
 
 

@@ -180,6 +180,15 @@ class FunctionBase:
 
         """
         # TODO: Implement for Task 1.3.
+        der_val = []
+        val_backward = cls.backward(ctx, d_output)
+        val_backward = wrap_tuple(val_backward)
+        for i, val in enumerate(inputs):
+            if (isinstance(val, int) is False) and (isinstance(val, float) is False):
+                if val.history is not None:
+                    der_val.append(VariableWithDeriv(val, val_backward[i]))
+        return der_val
+
         raise NotImplementedError('Need to implement for Task 1.3')
 
 
@@ -203,4 +212,20 @@ def backpropagate(final_variable_with_deriv):
            and its derivative that we want to propagate backward to the leaves.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+
+    pila = []
+    pila.append(final_variable_with_deriv)
+
+    while len(pila) != 0:
+        var_der = pila.pop(0)
+        if var_der.variable.history.is_leaf():
+            var_der.variable._add_deriv(var_der.deriv)
+        else:
+            v_d = var_der.variable.history.last_fn.chain_rule(
+                var_der.variable.history.ctx,
+                var_der.variable.history.inputs,
+                var_der.deriv,
+            )
+            for v in v_d:
+                pila.append(v)
+    # raise NotImplementedError('Need to implement for Task 1.4')
